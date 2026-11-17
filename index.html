@@ -166,7 +166,7 @@ tr.dim td,tr.dim th{opacity:.4}
     <div class="fld"><label for="yr">Tahun</label><select id="yr"></select></div>
     <div class="fld pel"><span id="lj">Jabatan</span><details class="ms" id="jabd"><summary id="jabs" aria-labelledby="lj">Semua jabatan</summary><div class="panel" id="jabp"></div></details></div>
     <div class="fld pel"><label for="fac">Kemudahan</label><select id="fac"></select></div>
-    <div class="fld pel"><label for="min">Peratus minimum: <b id="minv">0%</b></label><input type="range" id="min" min="0" max="100" step="1" value="0"></div>
+    <div class="fld pel"><label for="min">Peratus minimum KPI: <b id="minv">0%</b></label><input type="range" id="min" min="0" max="100" step="1" value="0"></div>
     <button class="reset" id="reset" type="button">Set semula</button>
   </div></div>
   <p class="status pel" id="status" aria-live="polite"></p>
@@ -192,7 +192,7 @@ tr.dim td,tr.dim th{opacity:.4}
     </section>
     <section class="card">
       <h2 id="fac-title">Peratus kemudahan</h2>
-      <p class="sub">Garisan hitam menunjukkan sasaran 85%. Jabatan di bawah peratus minimum disembunyikan daripada keputusan.</p>
+      <p class="sub">Garisan hitam menunjukkan sasaran 85%. Jabatan di bawah peratus minimum KPI disembunyikan daripada keputusan.</p>
       <div id="c-fac"></div>
     </section>
   </div>
@@ -368,14 +368,14 @@ function render(){
   $('fac-title').textContent=f;
   $('status').textContent=state.min>0
     ? `${A.length} daripada ${state.sel.size} jabatan mencapai ${state.min}% atau lebih untuk "${f}".`+(hidden.length?` Tidak termasuk: ${hidden.join(', ')}.`:'')
-    : `Menunjukkan ${A.length} jabatan. Gerakkan peratus minimum untuk menapis jabatan mengikut kemudahan.`;
+    : `Menunjukkan ${A.length} jabatan. Gerakkan peratus minimum KPI untuk menapis jabatan mengikut kemudahan.`;
 
   const jum=A.reduce((s,d)=>s+(d.jum||0),0), jwb=A.reduce((s,d)=>s+(d.jwb||0),0), avg=wavg(A,f), st=data.staf[0];
   $('tiles').innerHTML=A.length?`
    <div class="tile"><div class="tag">Jumlah pelajar</div><div class="n">${nf(jum)}</div><div class="s">${A.length} jabatan dipilih</div></div>
    <div class="tile"><div class="tag">Pelajar menjawab</div><div class="n">${nf(jwb)}</div><div class="s">${jum?`daripada ${nf(jum)} pelajar · ${pf(jwb/jum*100)}`:'-'}</div></div>
    <div class="tile"><div class="tag">Purata kepuasan</div><div class="n" style="color:${avg>=TARGET?'var(--good)':'var(--bad)'}">${pf(avg)}</div><div class="s">${esc(f)} · ${A.filter(d=>val(d,f)>=TARGET).length}/${A.length} jabatan capai ${TARGET}%</div></div>`
-   :`<div class="tile empty" style="grid-column:1/-1">Tiada jabatan sepadan. Kurangkan peratus minimum atau pilih jabatan lain.</div>`;
+   :`<div class="tile empty" style="grid-column:1/-1">Tiada jabatan sepadan. Kurangkan peratus minimum KPI atau pilih jabatan lain.</div>`;
   const sk=data.staf.find(x=>/keseluruhan/i.test(x.item));
   $('tiles-staf').innerHTML=st?`
    <div class="tile"><div class="tag">Jumlah staf</div><div class="n">${nf(st.jum)}</div><div class="s">Tahun ${esc(state.year)}</div></div>
